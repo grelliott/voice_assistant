@@ -1,0 +1,13 @@
+execute_process (
+ COMMAND bash -c "cd ${PROJECT_SOURCE_DIR} && git rev-parse HEAD"
+ OUTPUT_VARIABLE COMMIT_ID
+ OUTPUT_STRIP_TRAILING_WHITESPACE
+)
+
+execute_process (
+ COMMAND bash -c "cd ${PROJECT_SOURCE_DIR} && git rev-parse --abbrev-ref HEAD"
+ OUTPUT_VARIABLE BRANCH_NAME
+ OUTPUT_STRIP_TRAILING_WHITESPACE
+)
+
+configure_file(${VERSION_TEMPLATE} ${VERSION_FILE})
