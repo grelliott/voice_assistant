@@ -10,7 +10,7 @@
 #pragma once
 #include <atomic>
 
-namespace ca::grantelliott::testapp {
+namespace ca::grantelliott::voice {
 class Application {
  public:
     Application();
@@ -26,4 +26,4 @@ class Application {
  private:
     std::atomic<bool> mRun;
 };
-}  // namespace ca::grantelliott::testapp
+}  // namespace ca::grantelliott::voice

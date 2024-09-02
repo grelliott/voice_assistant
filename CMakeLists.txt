@@ -1,8 +1,8 @@
 cmake_minimum_required(VERSION 3.16)
 
-project(test_app
-    VERSION 0.0.3
-    DESCRIPTION "This is a boilerplate application that currently includes logging, and command-line argument support"
+project(voice_assistant
+    VERSION 0.0.1
+    DESCRIPTION "Voice assistant application"
 )
 
 LIST(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)

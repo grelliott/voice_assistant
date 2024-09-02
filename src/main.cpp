@@ -32,7 +32,7 @@ auto main(int argc, char* argv[]) -> int {
     // initialize logging
     log::initialize();
 
-    ca::grantelliott::testapp::Application app{};
+    ca::grantelliott::voice::Application app{};
     app.init();
 
     app.start();

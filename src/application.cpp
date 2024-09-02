@@ -15,7 +15,7 @@
 
 #include "log.hpp"
 
-namespace ca::grantelliott::testapp {
+namespace ca::grantelliott::voice {
 
 using namespace std::literals::chrono_literals;
 
@@ -49,4 +49,4 @@ void Application::terminate() noexcept {
     mRun.store(false);
 }
 
-}  // namespace ca::grantelliott::testapp
+}  // namespace ca::grantelliott::voice
