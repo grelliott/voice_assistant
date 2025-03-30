@@ -10,6 +10,8 @@
 #pragma once
 
 #include <filesystem>
+#include <format>
+#include <source_location>
 #define SPDLOG_ACTIVE_LEVEL SPDLOG_LEVEL_TRACE
 #include "spdlog/sinks/stdout_sinks.h"
 #include "spdlog/spdlog.h"
@@ -22,54 +24,51 @@ namespace ca::grantelliott::log {
 // - set custom logfile name
 void initialize();
 
-struct location_and_format {
-    constexpr location_and_format(char const* _format,
-                                  char const* _file_name = std::filesystem::path(__builtin_FILE()).filename().c_str(),
-                                  unsigned _line = __builtin_LINE()) noexcept
-        : format{_format}, file_name{_file_name}, line{_line} {}
+[[nodiscard]] constexpr auto
+get_log_source_location(const std::source_location &location) {
+  return spdlog::source_loc{location.file_name(),
+                            static_cast<std::int32_t>(location.line()),
+                            location.function_name()};
+}
 
-    char const* format;
-    char const* file_name;
-    unsigned line;
+struct format_with_location {
+  std::string_view value;
+  spdlog::source_loc loc;
+
+  template <typename String>
+  format_with_location(const String &s, const std::source_location &location =
+                                            std::source_location::current())
+      : value{s}, loc{get_log_source_location(location)} {}
 };
 
-template <typename... Targs>
-inline auto msg(location_and_format format,
-                Targs const&... args) -> std::string_view {
-    return {std::format("[{}:{}] ", format.file_name, format.line) +
-            std::vformat(
-                format.format,
-                std::make_format_args(std::forward<Targs const&>(args)...))};
+template <typename... Args>
+void debug(format_with_location fmt, Args &&...args) {
+  spdlog::default_logger_raw()->log(fmt.loc, spdlog::level::debug, fmt.value,
+                                    std::forward<Args>(args)...);
 }
 
-template <typename... Targs>
-inline void trace(const location_and_format format, Targs const&... args) {
-    SPDLOG_TRACE(msg(format, std::forward<Targs const&>(args)...));
+template <typename... Args>
+void info(format_with_location fmt, Args &&...args) {
+  spdlog::default_logger_raw()->log(fmt.loc, spdlog::level::info, fmt.value,
+                                    std::forward<Args>(args)...);
 }
 
-template <typename... Targs>
-inline void debug(const location_and_format format, Targs const&... args) {
-    SPDLOG_DEBUG(msg(format, std::forward<Targs const&>(args)...));
+template <typename... Args>
+void warn(format_with_location fmt, Args &&...args) {
+  spdlog::default_logger_raw()->log(fmt.loc, spdlog::level::warn, fmt.value,
+                                    std::forward<Args>(args)...);
 }
 
-template <typename... Targs>
-inline void info(const location_and_format format, Targs const&... args) {
-    SPDLOG_INFO(msg(format, std::forward<Targs const&>(args)...));
+template <typename... Args>
+void error(format_with_location fmt, Args &&...args) {
+  spdlog::default_logger_raw()->log(fmt.loc, spdlog::level::err, fmt.value,
+                                    std::forward<Args>(args)...);
 }
 
-template <typename... Targs>
-inline void warn(const location_and_format format, Targs const&... args) {
-    SPDLOG_WARN(msg(format, std::forward<Targs const&>(args)...));
+template <typename... Args>
+void critical(format_with_location fmt, Args &&...args) {
+  spdlog::default_logger_raw()->log(fmt.loc, spdlog::level::critical, fmt.value,
+                                    std::forward<Args>(args)...);
 }
 
-template <typename... Targs>
-inline void error(const location_and_format format, Targs const&... args) {
-    SPDLOG_ERROR(msg(format, std::forward<Targs const&>(args)...));
-}
-
-template <typename... Targs>
-inline void critical(const location_and_format format, Targs const&... args) {
-    SPDLOG_CRITICAL(msg(format, std::forward<Targs const&>(args)...));
-}
-
-}  // namespace ca::grantelliott::log
+} // namespace ca::grantelliott::log
