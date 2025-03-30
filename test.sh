@@ -1,3 +1,3 @@
-pushd build/test
-ctest
+pushd result/bin
+./test_app_test
 popd

@@ -4,13 +4,12 @@
  * Created Date: Saturday, August 24th 2024, 6:15:13 am
  * Author: Grant Elliott
  *
- * Copyright (c) 2024 Grant Elliott
+ * Copyright (c) 2025 Grant Elliott
  */
 
 #pragma once
 
 #include <filesystem>
-#include "fmt/format.h"
 #define SPDLOG_ACTIVE_LEVEL SPDLOG_LEVEL_TRACE
 #include "spdlog/sinks/stdout_sinks.h"
 #include "spdlog/spdlog.h"
@@ -37,10 +36,10 @@ struct location_and_format {
 template <typename... Targs>
 inline auto msg(location_and_format format,
                 Targs const&... args) -> std::string_view {
-    return {fmt::format("[{}:{}] ", format.file_name, format.line) +
-            fmt::vformat(
+    return {std::format("[{}:{}] ", format.file_name, format.line) +
+            std::vformat(
                 format.format,
-                fmt::make_format_args(std::forward<Targs const&>(args)...))};
+                std::make_format_args(std::forward<Targs const&>(args)...))};
 }
 
 template <typename... Targs>
