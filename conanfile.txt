@@ -1,8 +1,8 @@
 [requires]
-spdlog/1.14.1
-gtest/1.15.0
-argparse/3.1
-llama-cpp/b3542
+spdlog/1.15.1
+gtest/1.16.0
+argparse/3.2
+llama-cpp/b4570
 
 [generators]
 CMakeDeps
