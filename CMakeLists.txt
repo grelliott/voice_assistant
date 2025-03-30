@@ -1,3 +1,4 @@
+set(CMAKE_POLICY_DEFAULT_CMP0025 new)
 cmake_minimum_required(VERSION 3.22)
 
 project(voice_assistant
@@ -39,5 +40,7 @@ install( TARGETS ${CMAKE_PROJECT_NAME}
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
 )
 
-enable_testing()
-add_subdirectory(test)
+if (BUILD_TESTING)
+    enable_testing()
+    add_subdirectory(test)
+endif()

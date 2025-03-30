@@ -16,10 +16,13 @@
 gccStdenv.mkDerivation rec {
     pname = "voice_assistant_app";
     version = "0.0.2";
-    src = ./.; # set correctly?
+    src = ./.;
 
-    nativeBuildInputs = [clang-tools cppcheck cpplint cmake ninja git gtest];
+    nativeBuildInputs = [cmake ninja git gtest];
     buildInputs = [spdlog argparse];
+    checkInputs = [ cppcheck cpplint ];
+    doCheck = true;
+    cmakeFlags = ["-DBUILD_TESTING:BOOL=TRUE"];
 
     meta = with lib; {
         license = licenses.mit;
