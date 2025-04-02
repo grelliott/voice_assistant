@@ -14,9 +14,11 @@ include(Version)
 
 find_package(spdlog REQUIRED)
 find_package(argparse REQUIRED)
+find_package(SDL2 REQUIRED)
 
 add_executable( ${CMAKE_PROJECT_NAME}
     src/log.cpp
+    src/audio/capture/sdl2_capture.cpp
     src/application.cpp
     src/main.cpp)
 
@@ -26,14 +28,14 @@ set_target_properties(${CMAKE_PROJECT_NAME} PROPERTIES
 
 target_compile_definitions(${CMAKE_PROJECT_NAME} PRIVATE SPDLOG_USE_STD_FORMAT)
 target_include_directories(${CMAKE_PROJECT_NAME}
-    PUBLIC
-        include
     PRIVATE
-        ${spdlog_INCLUDE_DIRS}
+        include
 )
 
 target_link_libraries(${CMAKE_PROJECT_NAME}
     argparse::argparse
+    spdlog::spdlog_header_only
+    SDL2::SDL2
 )
 
 install( TARGETS ${CMAKE_PROJECT_NAME}

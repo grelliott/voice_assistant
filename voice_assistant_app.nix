@@ -11,6 +11,7 @@
     ninja,
     spdlog,
     argparse,
+    SDL2,
 }:
 
 gccStdenv.mkDerivation rec {
@@ -18,8 +19,8 @@ gccStdenv.mkDerivation rec {
     version = "0.0.2";
     src = ./.;
 
-    nativeBuildInputs = [cmake ninja git gtest];
-    buildInputs = [spdlog argparse];
+    nativeBuildInputs = [ cmake ninja git gtest ];
+    buildInputs = [ spdlog argparse SDL2 ];
     checkInputs = [ cppcheck cpplint ];
     doCheck = true;
     cmakeFlags = ["-DBUILD_TESTING:BOOL=TRUE"];

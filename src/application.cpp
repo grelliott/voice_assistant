@@ -13,6 +13,7 @@
 #include <cstddef>
 #include <thread>
 
+#include "audio/capture/sdl2_capture.hpp"
 #include "log.hpp"
 
 namespace ca::grantelliott::voice {
@@ -21,7 +22,7 @@ using namespace std::literals::chrono_literals;
 
 static constexpr auto NUMBER_OF_LOOPS = 1 * 10;
 
-Application::Application() : mRun{true} {
+Application::Application() : mRun{true}, mAudioCapture{1, 500, 16000} {
     log::info("Creating Application");
 }
 
@@ -31,6 +32,13 @@ Application::~Application() {
 
 void Application::init() {
     log::info("Application::init");
+    // TODO connect a lock-free ring buffer/queue between audio capture and whisper
+    // Review how whisper can take in audio, if it can use running audio input
+    // look into adding silence detection on audio capture
+    // mAudioCapture.init();
+    // create whisper
+    // link capture to whisper
+    // consider a factory or builder?
 }
 
 void Application::start() {
@@ -42,10 +50,12 @@ void Application::start() {
         }
     }};
     worker_thread.join();
+    mAudioCapture.start();
 }
 
 void Application::terminate() noexcept {
     log::info("Application::terminate");
+    mAudioCapture.terminate();
     mRun.store(false);
 }
 

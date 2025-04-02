@@ -9,8 +9,23 @@
 
 #pragma once
 #include <atomic>
+#include <memory>
+
+#include "audio/capture/sdl2_capture.hpp"
 
 namespace ca::grantelliott::voice {
+
+/**
+ * @brief The main application class
+ *
+ * It should prepare the audioin, ASR, LLM, TTS, audioout and connect them
+ *
+ * asr {audioIn, Whisper}
+ * tts {Piper, audioOut}
+ * llm {inputText}
+ *
+ * manage high-level threading
+ */
 class Application {
  public:
     Application();
@@ -25,5 +40,6 @@ class Application {
 
  private:
     std::atomic<bool> mRun;
+    audio::capture::Sdl2Capture mAudioCapture;
 };
 }  // namespace ca::grantelliott::voice
