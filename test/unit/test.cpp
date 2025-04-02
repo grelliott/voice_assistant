@@ -7,10 +7,11 @@
  * Copyright (c) 2024 Grant Elliott
  */
 
-
 #include <gtest/gtest.h>
 
 namespace ca::grantelliott::testapp::tests {
-TEST(SanityTests, TestIsSane) { ASSERT_EQ(4, 2 + 2); }
+TEST(SanityTests, TestIsSane) {
+    ASSERT_EQ(4, 2 + 2);
+}
 
 }  // namespace ca::grantelliott::testapp::tests

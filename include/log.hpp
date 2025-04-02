@@ -26,49 +26,49 @@ void initialize();
 
 [[nodiscard]] constexpr auto
 get_log_source_location(const std::source_location &location) {
-  return spdlog::source_loc{location.file_name(),
-                            static_cast<std::int32_t>(location.line()),
-                            location.function_name()};
+    return spdlog::source_loc{location.file_name(),
+                              static_cast<std::int32_t>(location.line()),
+                              location.function_name()};
 }
 
 struct format_with_location {
-  std::string_view value;
-  spdlog::source_loc loc;
+    std::string_view value;
+    spdlog::source_loc loc;
 
-  template <typename String>
-  format_with_location(const String &s, const std::source_location &location =
-                                            std::source_location::current())
-      : value{s}, loc{get_log_source_location(location)} {}
+    template <typename String>
+    format_with_location(const String &s, const std::source_location &location =
+                                              std::source_location::current())
+        : value{s}, loc{get_log_source_location(location)} {}
 };
 
 template <typename... Args>
 void debug(format_with_location fmt, Args &&...args) {
-  spdlog::default_logger_raw()->log(fmt.loc, spdlog::level::debug, fmt.value,
-                                    std::forward<Args>(args)...);
+    spdlog::default_logger_raw()->log(fmt.loc, spdlog::level::debug, fmt.value,
+                                      std::forward<Args>(args)...);
 }
 
 template <typename... Args>
 void info(format_with_location fmt, Args &&...args) {
-  spdlog::default_logger_raw()->log(fmt.loc, spdlog::level::info, fmt.value,
-                                    std::forward<Args>(args)...);
+    spdlog::default_logger_raw()->log(fmt.loc, spdlog::level::info, fmt.value,
+                                      std::forward<Args>(args)...);
 }
 
 template <typename... Args>
 void warn(format_with_location fmt, Args &&...args) {
-  spdlog::default_logger_raw()->log(fmt.loc, spdlog::level::warn, fmt.value,
-                                    std::forward<Args>(args)...);
+    spdlog::default_logger_raw()->log(fmt.loc, spdlog::level::warn, fmt.value,
+                                      std::forward<Args>(args)...);
 }
 
 template <typename... Args>
 void error(format_with_location fmt, Args &&...args) {
-  spdlog::default_logger_raw()->log(fmt.loc, spdlog::level::err, fmt.value,
-                                    std::forward<Args>(args)...);
+    spdlog::default_logger_raw()->log(fmt.loc, spdlog::level::err, fmt.value,
+                                      std::forward<Args>(args)...);
 }
 
 template <typename... Args>
 void critical(format_with_location fmt, Args &&...args) {
-  spdlog::default_logger_raw()->log(fmt.loc, spdlog::level::critical, fmt.value,
-                                    std::forward<Args>(args)...);
+    spdlog::default_logger_raw()->log(fmt.loc, spdlog::level::critical, fmt.value,
+                                      std::forward<Args>(args)...);
 }
 
-} // namespace ca::grantelliott::log
+}  // namespace ca::grantelliott::log
